@@ -1,0 +1,62 @@
+﻿<div class="claim-grid">
+    <table class="table table-striped table-bordered table-responsive ">
+        <thead>
+            <tr>
+                <th><input type="checkbox" ng-model="selectedAllWitness" ng-click="checkAllWitness()" class="witnessCheckbox" enter-as-tab/></th>
+                <th>Name</th>
+                <th>Registration</th>
+                <th>Address</th>
+                <th>Phone</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="witness in SceneWitness" scene-witness-directive>
+                <td>
+                    <div>
+                        <input type="checkbox" ng-model="witness.selected" enter-as-tab />
+                    </div>
+
+                </td>
+                <td>
+                    <div>
+                        <input maxlength="150" type="text" class="form-control" ng-model="witness.name" required enter-as-tab/>
+                    </div>
+                    <div>
+                        <label class="validationMsg" ng-show="(witness.name.$touched && witness.name.$error.required)||(isValidated && witness.name.$error.required)"> Name is Required </label>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <input maxlength="7" type="text" class="form-control alphaNumeric" ng-model="witness.registration" required enter-as-tab/>
+                    </div>
+                    <div>
+                        <label class="validationMsg" ng-show="(witness.registration.$touched && witness.name.$error.required)||(isValidated && witness.registration.$error.required)"> Registration is Required </label>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <textarea maxlength="255" type="text" class="form-control" ng-model="witness.address" required />
+                    </div>
+                    <div>
+                        <label class="validationMsg" ng-show="(witness.address.$touched && witness.address.$error.required)||(isValidated && witness.address.$error.required)"> Address is Required </label>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <input maxlength="20" type="text" class="form-control" ng-model="witness.phone" required enter-as-tab/>
+                    </div>
+                    <div>
+                        <label class="validationMsg" ng-show="(witness.phone.$touched && witness.phone.$error.required)||(isValidated && witness.phone.$error.required)"> Phone is Required </label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <label class="validationMsg pull-left col-lg-2 " ng-show="(isValidatedWitness)">Please fill the details</label>
+        <input ng-hide="!SceneWitness.length" type="button" class="btn btn-danger pull-right anjular-btn-danger" ng-click="removeWitness()" value="Remove">
+        <input type="button" ng-click="addNewWitness()" class="btn btn-primary addnew pull-right anjular-btn-primary" value="Add New">
+    </div>
+</div>

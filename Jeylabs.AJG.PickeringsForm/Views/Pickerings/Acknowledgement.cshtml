@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Pickerings Claims Form - Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    <div style="width:1000px ; height:500px; padding:20px; background-color:white;  border-radius:5px;   margin: auto; margin-top:110px;">
+        <h1 style="font-family:Arial; font-size:50px; font-style:normal;">Claims Advice Form - Submitted</h1>
+        <h3 style="font-family:Arial;  font-size:17px; font-style:normal">Pickerings Claim Submission - Reference Number @ViewBag.ReferenceNumber.</h3>
+        <p>Submitted on @ViewBag.SubmitedDate</p>
+
+        <br />
+
+        <img src="~/Content/Images/submit-ok.png" style="width:100PX; margin: auto; display: block;" />
+        <br />
+        <p style="text-align:center; font-family:Arial; font-size:15px;">Thank you for your submission. You will recieve a confirmaton email in respect to this submission.</p>
+        <p style="text-align:center;font-family:Arial; font-size:15px;">If you wish to discuss this claim notification or any other claim please call our Brisbane CBD office (07) 3002 2200 </p>
+    </div>
+}
+

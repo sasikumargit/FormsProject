@@ -1,0 +1,47 @@
+﻿
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th><input type="checkbox" ng-model="selectedAllThirdPartyFileUpload" ng-click="checkAllThirdPartyFileUpload()"  class="ThirdPartyFileUploadCheckbox" enter-as-tab/></th>
+            <th>Upload Description</th>
+            <th>Upload Filename</th>          
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="(key, thirdPartyFile)  in ThirdPartyFileUpload">
+            <td>
+                <input type="checkbox" ng-model="thirdPartyFile.selected" enter-as-tab/>
+               
+            </td>
+
+            <td>
+                <div>
+                    <input type="text" maxlength="255" class="form-control" ng-model="thirdPartyFile.uploadDescription" ng-required="isThirdPartyCorrespondence"  required enter-as-tab/>
+                </div>
+                <div>
+                    <label class="validationMsg" ng-show="(thirdPartyFile.uploadDescription.$touched && thirdPartyFile.uploadDescription.$error.required)||(isValidated && thirdPartyFile.uploadDescription.$error.required)"> Upload Description is Required </label>
+                </div>             
+            </td>            
+            <td>
+                <div>
+                    <input type="file"  accept=".docx,.pdf,.jpg,.png,.jpeg,.txt"  class="form-control" data-input-key="{{key}}" onchange="angular.element(this).scope().ThirdPartyFileUploadInput(this)" ng-model="ThirdPartyFileUpload[key].File" ng-required="isThirdPartyCorrespondence" required enter-as-tab/>
+                </div>
+                <div>
+                    <label class="validationMsg" ng-show="(ThirdPartyFileUpload[key].File.$touched && ThirdPartyFileUpload[key].File.$error.required)||(isValidated && ThirdPartyFileUpload[key].File.$error.required)"> File is Required </label>
+                </div>  
+            </td>            
+        </tr>
+    </tbody>
+</table>
+<div>
+    <label id="ThirdpartyErrorlabel" class="validationMsg" hidden >The total File have exceeded 22Mb. The total File size should not exceed 22mb</label>
+</div>
+
+
+    <div class="form-group">
+        <label class="validationMsg pull-left col-lg-2 " ng-show="(isValidatedThirdPartyFileUpload)">Please fill the details</label>
+        <input ng-hide="!ThirdPartyFileUpload.length" type="button" class="btn btn-danger pull-right anjular-btn-danger" ng-click="removeThirdPartyFileUpload()" value="Remove">
+        <input type="button" ng-click="addNewThirdPartyFileUpload()" class="btn btn-primary addnew pull-right anjular-btn-primary" value="Add New">
+    </div>
+

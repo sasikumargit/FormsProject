@@ -1,0 +1,76 @@
+﻿
+<div class="claim-grid">
+    <table class="table table-striped table-bordered table-responsive ">
+        <thead>
+            <tr>
+                <th><input type="checkbox" ng-model="selectedAllClaim" ng-click="checkAllClaim()" class="ClaimCheckbox" enter-as-tab/></th>
+                <th>Property Description</th>
+                <th width="140px">Item Age</th>
+                <th width="200px">Original Cost</th>
+                <th width="200px">Replacement Value</th>
+                <th width="200px">Amount Claimed</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in Claim">
+                <td>
+                    <input type="checkbox" ng-model="item.selected" enter-as-tab />
+                </td>
+                <td>
+                    <div>
+                        <input maxlength="255" type="text" class="form-control" ng-model="item.propertyDescription" required enter-as-tab/>
+                    </div>
+                    <div>
+                        <label class="validationMsg" ng-show="(item.propertyDescription.$touched && item.propertyDescription.$error.required)||(isValidated && item.propertyDescription.$error.required)"> Registration is Required </label>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <select type="" class="form-control" ng-model="item.itemAge"  ng-options="age for age in itemAge" required enter-as-tab>
+                            <option value="">--Select--</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="validationMsg" ng-show="(item.itemAge.$touched && item.itemAge.$error.required)||(isValidated && item.itemAge.$error.required)"> Item Age is Required </label>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group">
+                        <span class="input-group-addon">AUD$</span>
+                        <input name="originalCost" min="0"  type="number" class="form-control currenypadding" ng-model="item.originalCost" required enter-as-tab/>
+                    </div>
+                    <div>
+                        <label class="validationMsg" ng-show="(item.originalCost.$touched && item.originalCost.$error.required)||(isValidated && item.originalCost.$error.required)"> Original Cost is Required </label>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group">
+                        <span class="input-group-addon">AUD$</span>
+                        <input type="number" min="0" s class="form-control currenypadding" ng-model="item.replacementValue" required enter-as-tab/>
+                    </div>
+                    <div>
+                        <label class="validationMsg" ng-show="(item.replacementValue.$touched && item.replacementValue.$error.required)||(isValidated && item.replacementValue.$error.required)"> Replacement Value is Required </label>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group">
+                        <span class="input-group-addon">AUD$</span>
+                        <input type="number" min="0"  class="form-control currenypadding" ng-model="item.amountClaimed" ng-change="getTotal()" required  enter-as-tab/>
+                    </div>
+                    <div>
+                        <label class="validationMsg" ng-show="(item.amountClaimed.$touched && item.amountClaimed.$error.required)||(isValidated && item.amountClaimed.$error.required)"> Amount Claimed is Required </label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="form-group">
+    <label class="validationMsg pull-left col-lg-2 "  ng-show="(isValidatedClaim)">Please fill the details</label>
+    <input  ng-hide="!Claim.length" type="button" class="btn btn-danger pull-right anjular-btn-danger" ng-click="removeClaim()" value="Remove">
+    <input  type="button" ng-click="addNewClaim()" class="btn btn-primary addnew pull-right anjular-btn-primary" value="Add New">
+</div>
+
+

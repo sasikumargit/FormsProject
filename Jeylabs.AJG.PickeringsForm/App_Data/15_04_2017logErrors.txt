@@ -1,0 +1,10 @@
+Date : 15/04/2017 12:36:54
+Custom Error :    at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at Jeylabs.AJG.PickeringsForm.Helpers.EmailSender.SendMail(IDictionary`2 EmailDetails, String body, String subject, List`1 FileCollections) in D:\AJG Public Web\Jeylabs.AJG.PickeringsForm\Jeylabs.AJG.PickeringsForm\Jeylabs.AJG.PickeringsForm\Helpers\EmailSender.cs:line 67
+Date : 15/04/2017 12:36:54
+Custom Error : Email failed to AJG - Ref # : PCAF13903
+Date : 15/04/2017 12:36:54
+Custom Error :    at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at Jeylabs.AJG.PickeringsForm.Helpers.EmailSender.SendMail(IDictionary`2 EmailDetails, String body, String subject, List`1 FileCollections) in D:\AJG Public Web\Jeylabs.AJG.PickeringsForm\Jeylabs.AJG.PickeringsForm\Jeylabs.AJG.PickeringsForm\Helpers\EmailSender.cs:line 67
+Date : 15/04/2017 12:36:54
+Custom Error : Email failed to initiator - Ref # : PCAF13903

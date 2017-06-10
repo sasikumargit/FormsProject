@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html ng-app="PickeringsForm">
+<head>
+    <link rel="icon" type="image/png" href="~/Content/Images/ajg-icon.png" sizes="30x128" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  @*  <title>@ViewBag.Title - My ASP.NET Application</title>*@
+    <title>@ViewBag.Title</title>
+    
+
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body ng-controller="PickeringsFormController" data-root='@Url.Content("~")'>
+   
+    
+    <div class="container body-content" style="border:none">
+        <header>
+            <div class="Headercontainer">
+                <img src="~/Content/Images/PickeringLogo.png" class="rightlogo pull-left img-responsive" />
+                <img src="~/Content/Images/AJGLogo.png" class="leftlogo pull-right img-responsive"  />
+            </div>
+        </header>
+        
+        <div>
+
+        </div>
+        @RenderBody()
+        <hr />
+        <footer>
+           <p style="color:white; text-align:center">© Arthur J. Gallagher & Co. (AUS) Limited ABN: 34 005 543 920</p>          
+        </footer>
+    </div>
+   
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript" >
+
+
+    </script>
+</body>
+</html>

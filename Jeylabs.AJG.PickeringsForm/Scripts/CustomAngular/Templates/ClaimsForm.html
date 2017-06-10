@@ -1,0 +1,568 @@
+﻿
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqVxGQ_-LbWVM9Xya0DdpiapUU7kFhiPk&libraries=places&callback=initAutocomplete" async defer></script>
+
+<div class="MainContaner" >
+
+    <div style="padding-left:5%; padding-top:10px; padding-right:5%;" id="dataInput">
+        <div style="margin-bottom:20px;">
+            <h2 class="formHeading">Claims Advice Form</h2>
+        </div>
+        <fieldset>
+            <form name="ClaimForm" class="form-horizontal" style="margin:auto" ng-app>
+                <input type="hidden" id="IPAddress" name="IPAddress"  ng-model="claimsAdvice.IPAddress"/>
+                <div class="Subcontainer ui segment ajg subcontainerLoading" data-ng-class="!insuredOptions.length ? 'loading' : ''">
+                    <div class="form-group has-feedback">
+                        <div class="col-md-12 inputGroupContainer">
+                            <label>Insured*</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-sort-down  ">  </i></span>
+                                <select id="insured" name="insured" class="form-control" type="" ng-change="onInsuredChange(claimsAdvice.insured)" ng-model="claimsAdvice.insured" ng-options="item.id as item.BusinessName for item in insuredOptions" required enter-as-tab>
+                                    <option value="">--Please Select--</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="(ClaimForm.insured.$touched && ClaimForm.insured.$error.required)||(isValidated  && ClaimForm.insured.$error.required)"> A selection is Required </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+
+
+                        <div class="col-md-6 inputGroupContainer" ng-show="isInsured">
+                            <label>Insured Business Name*</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user">  </i></span>
+                                <input name="insuredBusinessName" id="insuredBusinessName" placeholder="Insured Business Name" class="form-control" type="text" ng-readonly="!isInsured" maxlength="100" ng-model="claimsAdvice.insuredBusinessName" ng-required="isInsured" enter-as-tab />
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="(ClaimForm.insuredBusinessName.$touched && ClaimForm.insuredBusinessName.$error.required)||(isValidated && ClaimForm.insuredBusinessName.$error.required)">Insured Business Name is Required.</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 inputGroupContainer">
+                            <label>Insured ABN*</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user">  </i></span>
+                                <input name="insuredABN" id="insuredABN" placeholder="Insured ABN" maxlength="14" class="form-control" type="text" ng-readonly="!isInsured" ng-model="claimsAdvice.insuredABN" ng-required="isInsured" enter-as-tab>
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="(ClaimForm.insuredABN.$touched && ClaimForm.insuredABN.$error.required)||(isValidated && ClaimForm.insuredABN.$error.required)">Insured ABN is Required.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <div class="col-md-12 inputGroupContainer">
+                            <label>Insured Address</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user">  </i></span>
+                                <input name="InsuredBusinessAddress" id="InsuredBusinessAddress" maxlength="255" placeholder="Insured Address" ng-readonly="!isInsured" class="form-control" type="text" ng-model="claimsAdvice.InsuredBusinessAddress" ng-required="isInsured" enter-as-tab>
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="(ClaimForm.InsuredBusinessAddress.$touched && ClaimForm.InsuredBusinessAddress.$error.required)||(isValidated && ClaimForm.InsuredBusinessAddress.$error.required)">Insured Business Address is Required.</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group has-feedback">
+                        <div class="col-md-4 inputGroupContainer">
+                            <label>Contact Name*</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user">  </i></span>
+                                <input name="ContactName" maxlength="150" placeholder="Contact Name" ng-model="claimsAdvice.ContactName" required class="form-control" type="text" enter-as-tab>
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="(ClaimForm.ContactName.$touched && ClaimForm.ContactName.$error.required)||(isValidated && ClaimForm.ContactName.$error.required)">Contact Name is Required.</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 inputGroupContainer">
+                            <label>Contact Email*</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope-o">  </i></span>
+                                <input id="ContactEmail" name="ContactEmail" oncopy="return false" onpaste="return false" maxlength="255" ng-model="claimsAdvice.ContactEmail" ng-pattern='/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i' placeholder="Contact Email" class="form-control" type="email" required enter-as-tab ng-change="ValidateEmail(claimsAdvice.ConfirmContactEmail,claimsAdvice.ContactEmail)">
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="ClaimForm.ContactEmail.$touched && ClaimForm.ContactEmail.$error.email "> Invalid Email Address</label>
+                                <label class="validationMsg" ng-show="(ClaimForm.ContactEmail.$touched && ClaimForm.ContactEmail.$error.required)||(isValidated && ClaimForm.ContactEmail.$error.required)"> Contact Email is Required </label>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4 inputGroupContainer">
+                            <label>Confirm Email</label>
+                            <div class="input-group date">
+                                <span class="input-group-addon"><i class="fa fa-envelope-o">  </i></span>
+                                <input id="ConfirmContactEmail" name="ConfirmContactEmail" oncopy="return false" onpaste="return false" maxlength="255" ng-model="claimsAdvice.ConfirmContactEmail" placeholder="Confirm Email" class="form-control" type="email" ng-pattern='/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i' ng-change="ValidateEmail(claimsAdvice.ConfirmContactEmail,claimsAdvice.ContactEmail)" required enter-as-tab/>
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="ClaimForm.ConfirmContactEmail.$touched && ClaimForm.ConfirmContactEmail.$error.required||(isValidated && ClaimForm.ConfirmContactEmail.$error.required) ">Enter Email again to confirm</label>
+                                <label class="validationMsg" ng-show="isEmailConfirmNotValid &&  !ClaimForm.ConfirmContactEmail.$error.required">Email doesn't match</label>
+
+                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <div class="col-md-4 inputGroupContainer">
+                            <label>Date Of Event*</label>
+                            <div class="input-group date" id='datetimepicker'>
+                                <!--<span class="input-group-addon"><i class="fa fa-calendar">  </i></span>-->
+                                <input id="DateofEvent" placeholder="Date Of Event" onblur="dataChanged()" class="form-control" type="text" required  enter-as-tab/>
+
+                                <span id="datevalueIcon" class="input-group-addon ">
+                                    <span id="datevalueIcon" class="glyphicon glyphicon-calendar">
+                                    </span>
+                                </span>
+                            </div>
+                            <input id="datevalue" name="DateofEvent" ng-model="claimsAdvice.DateofEvent" type="hidden" required/>
+
+                            <div class="input-group">
+                                <label id="DateofEventError" class="validationMsg" hidden> Date Of Event is Required </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 inputGroupContainer">
+                            <label>Time Of Event*</label>
+                            <div class="input-group date" id="timepicker">
+                                <input id="TimeofDay" onblur="timeChanged()" placeholder="Time Of Event" class="form-control" type="text" required enter-as-tab/>
+                                <span id="timevalueIcon" class="input-group-addon">
+                                    <span id="timevalueIcon" class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
+                            <input id="timevalue" name="DateofEvent" ng-model="claimsAdvice.TimeofDay" type="hidden" required />
+
+                            <div class="input-group">
+                                <label id="TimeOfDayErrorLabel" class="validationMsg" hidden>Time Of Event is Required</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <div class="col-md-12 inputGroupContainer">
+                            <label>Where did the event occur?*</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa  fa-tags">  </i></span>
+                                <input id="EventAddress" name="EventAddress" maxlength="255" ng-model="claimsAdvice.EventAddress" placeholder="Where did the event occur?" class="form-control" type="text" required enter-as-tab/>
+                            </div>
+                            <div>
+                                <label class="validationMsg" ng-show="(ClaimForm.EventAddress.$touched && ClaimForm.EventAddress.$error.required)||(isValidated && ClaimForm.EventAddress.$error.required)"> Place where Event occured is Required </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <div class="col-md-12 inputGroupContainer">
+                            <label>How did the loss or damage occur? Please describe the damage.*</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-commenting-o">  </i></span>
+                                <textarea id="HowLossDescription" name="HowLossDescription" ng-model="claimsAdvice.HowLossDescription" placeholder="How did the loss or damage occur?" class="form-control" type="text"  ng-required="true"></textarea>
+                            </div>
+                            <label class="validationMsg" ng-show="(ClaimForm.HowLossDescription.$touched && ClaimForm.HowLossDescription.$error.required)||(requiredHowLossDescriptionArea && ClaimForm.HowLossDescription.$error.required)">Description how loss/damage occured is Required</label>
+                        </div> 
+                    </div>
+                    <div class="form-group has-feedback">
+                        <div class="col-md-12 inputGroupContainer">
+                            <label>Is any Third Party to blame for the loss or damage?*</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa  fa-check-square-o"> </i></span>
+                                <select id="ThirdPartyBlame" name="ThirdPartyBlame" ng-model="claimsAdvice.ThirdPartyBlame" class="form-control" ng-change="onThirdPartyBlameChange(claimsAdvice.ThirdPartyBlame)" ng-options="y for y in yesNoOptions" required enter-as-tab>
+                                    <option value="">--Please Select--</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="(ClaimForm.ThirdPartyBlame.$touched && ClaimForm.ThirdPartyBlame.$error.required)||(isValidated && ClaimForm.ThirdPartyBlame.$error.required)"> A selection is Required </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-if="isThirdPartyBlame">
+                        <div class="col-md-12 inputGroupContainer">
+                            <third-party-blame></third-party-blame>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <div class="col-md-12 inputGroupContainer">
+                            <label>Have you received or do you anticipate receiving notice of any claim from or on behalf of Third Parties?*</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa  fa-check-square-o">  </i></span>
+                                <select id="ReceiveNoticeThirdParty" name="ReceiveNoticeThirdParty" ng-model="claimsAdvice.ReceiveNoticeThirdParty" class="form-control" ng-change="onReceiveNoticeThirdPartyChange(claimsAdvice.ReceiveNoticeThirdParty)" ng-options="y for y in yesNoOptions" required enter-as-tab>
+                                    <option value="">--Please Select--</option>
+
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="(ClaimForm.ReceiveNoticeThirdParty.$touched && ClaimForm.ReceiveNoticeThirdParty.$error.required)||(isValidated && ClaimForm.ReceiveNoticeThirdParty.$error.required)"> A selection is Required </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-if="isReceiveNoticeThirdParty">
+                        <div class="col-md-12 inputGroupContainer">
+                            <label>Please provide details</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-commenting-o">  </i></span>
+                                <textarea id="ReceiveNoticeThirdPartyDetails" name="ReceiveNoticeThirdPartyDetails" placeholder="Please provide details" class="form-control" type="text" ng-model="claimsAdvice.ReceiveNoticeThirdPartyDetails" ng-required="isReceiveNoticeThirdParty"></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="(ClaimForm.ReceiveNoticeThirdPartyDetails.$touched && ClaimForm.ReceiveNoticeThirdPartyDetails.$error.required)||(isValidated && ClaimForm.ReceiveNoticeThirdPartyDetails.$error.required)"> A selection is Required </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <div class="col-md-12 inputGroupContainer">
+                            <label>Any witness at scene?*</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa  fa-check-square-o">  </i></span>
+                                <select id="WitnessesatScene" name="WitnessesatScene" ng-model="claimsAdvice.WitnessesatScene" ng-change="onWitnessonSceneChanged(claimsAdvice.WitnessesatScene)" class="form-control" ng-options="y for y in yesNoOptions" required enter-as-tab>
+                                    <option value="">--Please Select--</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="(ClaimForm.WitnessesatScene.$touched && ClaimForm.WitnessesatScene.$error.required)||(isValidated && ClaimForm.WitnessesatScene.$error.required)"> A selection is Required </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-if="isWitnessOnScene">
+                        <div class="col-md-12 inputGroupContainer">
+                            <witness-at-scene></witness-at-scene>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <div class="col-md-12 inputGroupContainer">
+                            <label>Is the claim for a burglary or theft?*</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa  fa-check-square-o">  </i></span>
+                                <select id="BurglaryorTheft" name="BurglaryorTheft" ng-model="claimsAdvice.BurglaryorTheft" ng-change="onBurgularyOrTheftChanged(claimsAdvice.BurglaryorTheft)" class="form-control" type="" ng-options="y for y in yesNoOptions" required enter-as-tab>
+                                    <option value="">--Please Select--</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label class="validationMsg" ng-show="(ClaimForm.BurglaryorTheft.$touched && ClaimForm.BurglaryorTheft.$error.required)||(isValidated && ClaimForm.BurglaryorTheft.$error.required)"> A selection is Required </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-if="isBurgularyOrTheft">
+
+                        <div class="col-md-12 inputGroupContainer">
+                            <label>Police Details</label>
+                            <div class="input-group col-md-12">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">
+                                                Station
+                                            </th>
+                                            <th class="text-left">
+                                                Officer Name
+                                            </th>
+                                            <th class="text-left">
+                                                Report Number
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <input class="form-control text-box single-line" maxlength="150" id="PoliceStation" name="PoliceStation" ng-model="claimsAdvice.PoliceStation" placeholder="Station" type="text" value="" ng-required="isBurgularyOrTheft" enter-as-tab>
+                                                </div>
+                                                <div>
+                                                    <label ng-show="(ClaimForm.PoliceStation.$touched && ClaimForm.PoliceStation.$error.required)||(isValidated && ClaimForm.PoliceStation.$error.required)" class="field-validation-valid text-danger">Police Station is Required</label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <input class="form-control text-box single-line" maxlength="150" id="PoliceOfficerName" name="PoliceOfficerName" ng-model="claimsAdvice.PoliceOfficerName" placeholder="Officer Name" type="text" value="" ng-required="isBurgularyOrTheft" enter-as-tab>
+                                                </div>
+                                                <div>
+                                                    <label ng-show="(ClaimForm.PoliceOfficerName.$touched && ClaimForm.PoliceOfficerName.$error.required)||(isValidated  && ClaimForm.PoliceOfficerName.$error.required)" class="field-validation-valid text-danger">Police Officer Name is Required</label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <input class="form-control text-box single-line" maxlength="30" id="PoliceReportNumber" name="PoliceReportNumber" ng-model="claimsAdvice.PoliceReportNumber" placeholder="Report Number" type="text" value="" ng-required="isBurgularyOrTheft" enter-as-tab>
+                                                </div>
+                                                <div>
+                                                    <label ng-show="(ClaimForm.PoliceReportNumber.$touched && ClaimForm.PoliceReportNumber.$error.required)||(isValidated && ClaimForm.PoliceReportNumber.$error.required)" class="field-validation-valid text-danger">Police Report Number is Required</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="DataSubContainer">
+                    <div class="DataInputHeading">
+                        <label class="HeadingText">Claim</label>
+                    </div>
+                    <div class="controlContainer">
+                        <div class="form-group has-feedback">
+                            <div class="col-md-12 inputGroupContainer">
+                                <claim-grid></claim-grid>
+                                <table class="pull-right">
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding: 8px;">
+                                                <label for="TotalAmountClaimed">Total amount claimed </label>
+                                            </td>
+                                            <td style="padding: 8px;">
+                                                <div class="input-group">
+                                                <span class="input-group-addon">AUD$</span>
+                                                <input class="form-control text-box single-line"  style="text-align:right" id="TotalAmountClaimed" name="TotalAmountClaimed" ng-model="claimsAdvice.TotalAmountClaimed" type="text"  readonly value="0">
+                                                <span class="field-validation-valid text-danger" id="TotalAmountClaimed_validationMessage"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <div class="form-group has-feedback">
+                            <div class="col-md-12 inputGroupContainer">
+                                <label>Is this a Third Party Liability claim?*</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa  fa-check-square-o">  </i></span>
+                                    <select id="ThirdPartyLiabilityClaim" name="ThirdPartyLiabilityClaim" ng-model="claimsAdvice.ThirdPartyLiabilityClaim" ng-change="onThirdPartyLiabilityClaimChanged(claimsAdvice.ThirdPartyLiabilityClaim)" class="form-control" ng-options="y for y in yesNoOptions" required enter-as-tab>
+                                        <option value="">--Please Select--</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label class="validationMsg" ng-show="(ClaimForm.ThirdPartyLiabilityClaim.$touched && ClaimForm.ThirdPartyLiabilityClaim.$error.required)||(isValidated && ClaimForm.ThirdPartyLiabilityClaim.$error.required)"> A selection is Required </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="DataSubContainer" ng-if="isThirdPartyLiabilityClaim">
+                    <div class="DataInputHeading">
+                        <label class="HeadingText">Complete the Third Party Liability Claims</label>
+                    </div>
+                    <div class="controlContainer">
+                        <div class="form-group has-feedback">
+                            <div class="col-md-12 inputGroupContainer">
+                                <label>Name of Third Party?*</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user">  </i></span>
+                                    <input name="ThirdPartyName" ng-model="claimsAdvice.ThirdPartyName" maxlength="150" placeholder="Name of Third Party?" class="form-control" type="text" ng-required="isThirdPartyLiabilityClaim" enter-as-tab>
+                                </div>
+                                <div class="input-group">
+                                    <label class="validationMsg" ng-show="(ClaimForm.ThirdPartyName.$touched && ClaimForm.ThirdPartyName.$error.required)||(isValidated  && ClaimForm.ThirdPartyName.$error.required)"> Third Party name is Required </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <div class="col-md-12 inputGroupContainer">
+                                <label>Permanent Address*</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-bank (alias)">  </i></span>
+                                    <input name="ThirdPartyPermanentAddress" maxlength="255" ng-model="claimsAdvice.ThirdPartyPermanentAddress" placeholder="Permanent Address" class="form-control" type="text" ng-required="isThirdPartyLiabilityClaim" enter-as-tab>
+                                </div>
+                                <div class="input-group">
+                                    <label class="validationMsg" ng-show="(ClaimForm.ThirdPartyPermanentAddress.$touched && ClaimForm.ThirdPartyPermanentAddress.$error.required)||(isValidated && ClaimForm.ThirdPartyPermanentAddress.$error.required)">Third Party permanent address is Required </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <div class="col-md-12 inputGroupContainer">
+                                <label>Nature and extent of injury / damage*</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-commenting-o">  </i></span>
+                                    <textarea name="InjuriesDamageDescription" ng-model="claimsAdvice.InjuriesDamageDescription" placeholder="Nature and extent of injury / damage" class="form-control" type="text" data-bv-field="first_name" ng-required="isThirdPartyLiabilityClaim"></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <label class="validationMsg" ng-show="(ClaimForm.InjuriesDamageDescription.$touched && ClaimForm.InjuriesDamageDescription.$error.required)||(isValidated && ClaimForm.InjuriesDamageDescription.$error.required)"> Injuries and Damage description is Required </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <div class="col-md-12 inputGroupContainer">
+                                <label>Have you received any correspondence from Third Parties?*</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa  fa-check-square-o">  </i></span>
+                                    <select id="ThirdPartyCorrespondence" ng-model="claimsAdvice.ThirdPartyCorrespondence" ng-change="onThirdPartyCorrespondenceChanged(claimsAdvice.ThirdPartyCorrespondence)" name="ThirdPartyCorrespondence" class="form-control" ng-options="y for y in yesNoOptions"  required enter-as-tab>
+                                        <option value="">--Please Select--</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label class="validationMsg" ng-show="(ClaimForm.ThirdPartyCorrespondence.$touched && ClaimForm.ThirdPartyCorrespondence.$error.required)||(isValidated && ClaimForm.ThirdPartyCorrespondence.$error.required)"> A selection is Required </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback" ng-if="isThirdPartyCorrespondence">
+                            <div class="col-md-12 inputGroupContainer">
+                                <label>If so. please enclose them with this form</label>
+                                <div class="col-md-12 input-group">
+                                    <third-party-file-upload></third-party-file-upload>
+                                </div>
+                                <small data-bv-validator="stringLength" data-bv-validator-for="first_name" class="help-block" style="display: none;">This value is not valid</small><small data-bv-validator="notEmpty" data-bv-validator-for="first_name" class="help-block" style="display: none;">Please supply your first name</small>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <div class="col-md-12 inputGroupContainer">
+                                <label>Have you made any admission of liability?*</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa  fa-check-square-o">  </i></span>
+                                    <select id="AdmissionofLiability" name="AdmissionofLiability" ng-model="claimsAdvice.AdmissionofLiability" ng-change="onAdmissionofLiabilityChanged(claimsAdvice.AdmissionofLiability)" class="form-control" type=""  ng-options="y for y in yesNoOptions" ng-required="isThirdPartyLiabilityClaim" required enter-as-tab>
+                                        <option value="">--Please Select--</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label class="validationMsg" ng-show="(ClaimForm.AdmissionofLiability.$touched && ClaimForm.AdmissionofLiability.$error.required)||(isValidated && ClaimForm.AdmissionofLiability.$error.required)"> A selection is Required </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback" ng-if="isAdmissionofLiability">
+                            <div class="col-md-12 inputGroupContainer">
+                                <label>Give details*</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-commenting-o">  </i></span>
+                                    <textarea name="AdmissionofLiabilityDetails" ng-model="claimsAdvice.AdmissionofLiabilityDetails" placeholder="Please provide details" class="form-control" type="text" ng-required="isAdmissionofLiability"></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <label class="validationMsg" ng-show="(ClaimForm.AdmissionofLiabilityDetails.$touched && ClaimForm.AdmissionofLiabilityDetails.$error.required)||(isValidated  && ClaimForm.AdmissionofLiabilityDetails.$error.required)"> Admission of Liability details is Required </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="DataSubContainer">
+                    <div class="DataInputHeading">
+                        <label class="HeadingText">Additional Comments and Files</label>
+                    </div>
+                    <div class="controlContainer">
+                        <div class="form-group has-feedback">
+                            <div class="col-md-12 inputGroupContainer">
+                                <label>Additional supporting files</label>
+                                <div class="col-md-12 input-group">
+                                    <support-file-upload></support-file-upload>
+                                </div>
+                                <small data-bv-validator="stringLength" data-bv-validator-for="first_name" class="help-block" style="display: none;">This value is not valid</small><small data-bv-validator="notEmpty" data-bv-validator-for="first_name" class="help-block" style="display: none;">Please supply your first name</small>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <div class="col-md-12 inputGroupContainer">
+                                <label>Additional comments</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-commenting-o">  </i></span>
+                                    <textarea name="OtherComments" ng-model="claimsAdvice.OtherComments" placeholder="Additional comments" class="form-control" type="text"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="RuleSubContainer">
+                    <div class="RuleHeading">
+                        <label class="HeadingText">Notes</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12" style="margin:10px;">
+                            <label>1. Make sure that you give us all details about your claim.</label> <br />
+                            <label>2. Please upload any documentation you have which may assist in verifying ownership and/or value of items.</label> <br />
+                            <label>3. Please upload all original quotations and/or original invoices which you have received to repair or replace your property.</label> <br />
+                            <label>4. Tell the police immediately about any loss or damage which has been caused by burglary or theft, vandalism or malicious damage.</label> <br />
+                            <label>5. If possible, keep damaged items available as your insurer may wish to inspect them.</label> <br />
+                            <label>6. For Third Party claims, do not admit liability.</label> <br />
+                            <label>7. Contact your Claims Broker should you require assistance.</label> <br />
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="declaration" hidden style="margin:10px;">
+                   <h3>Declaration</h3> 
+                    <p style="font-style:italic">I acknowledge by "clicking the Submit, I hereby declare the foregoing answers are true and correct, to the best of my knowledge and with the information i have available "</p>
+                    <input id="agree" name="DeclarationChecked" ng-change="OnDeclaredChange(claimsAdvice.DeclarationChecked)" ng-model="claimsAdvice.DeclarationChecked"  type="checkbox" req/> &nbsp;  <label for="agree">  I Agree</label>
+                    <div class="input-group">
+                        <label class="validationMsg"  ng-show="(isValidated)">Please Agree To submit</label>
+                    </div>
+                </div>
+                <div id="nextButtonHolder">
+                    <!--<a id="Next" class="btn btn-primary pull-right">Next</a>-->
+                    <button id="Next" class="btn btn-primary pull-right"  ng-click="GoToPreview()"><span>Next</span></button>
+                </div>
+                <div id="PreviewButtonsHolder" hidden>
+                    <button ng-if="isDeclared" id="SubmitClaim" class="btn btn-primary pull-right anjular-btn-primary"ng-click="onSubmit()"><span>Submit Claim</span></button>
+                    <button id="EditClaim" class="btn btn-primary pull-right anjular-btn-primary" ng-click="GoToEdit()"><span>Edit Claim</span></button>
+                </div>
+            </form>          
+        </fieldset>
+    </div>
+
+</div>
+
+<div id="wait" style="" class="loader"> </div>
+
+<script>
+    function dataChanged() {
+        var val = $('#DateofEvent').val();
+        $("#datevalue").val(val);
+    }
+
+    function timeChanged() {
+        var val = $('#TimeofDay').val();
+        $("#timevalue").val(val);
+    }
+
+    $("#Next").click(function () {
+        if ($("#datevalue").val() == "" || $("#datevalue").val() == null)
+        {
+            $("#DateofEventError").show();
+        }
+        else {
+            $("#DateofEventError").hide();
+        }
+
+        if ($("#timevalue").val() == "" || $("#timevalue").val() == null)
+        {
+            $("#TimeOfDayErrorLabel").show();
+        }
+        else{
+            $("#TimeOfDayErrorLabel").hide();
+
+        }
+
+    })
+
+
+    $("#timevalueIcon").click(function () {
+        $("#TimeOfDayErrorLabel").hide();
+    })
+
+
+    $("#datevalueIcon").click(function () {
+        $("#DateofEventError").hide();
+    })      
+
+    $(function () {
+        $("#datetimepicker").datetimepicker({ viewMode: 'days', format: 'DD/MM/YYYY' });
+    });
+
+    $(function () {
+        $("#timepicker").datetimepicker({
+            stepping: 30,
+            format: 'LT'
+        });
+
+        $.getJSON("https://jsonip.com?callback=?", function (data) {
+           // alert("Your ip: " + data.ip);
+            $("#IPAddress").val(data.ip);
+        });
+
+    });
+
+
+    // Alpha Numeric 
+
+    $.fn.regexMask = function (mask) {
+        $(this).keypress(function (event) {
+            if (!event.charCode) return true;
+            var part1 = this.value.substring(0, this.selectionStart);
+            var part2 = this.value.substring(this.selectionEnd, this.value.length);
+            if (!mask.test(part1 + String.fromCharCode(event.charCode) + part2))
+                return false;
+        });
+    };
+    
+
+</script>

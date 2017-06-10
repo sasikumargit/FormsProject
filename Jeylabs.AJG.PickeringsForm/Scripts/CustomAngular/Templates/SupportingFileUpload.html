@@ -1,0 +1,33 @@
+﻿
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th><input type="checkbox" ng-model="selectedAllSupportingFileUpload" ng-click="checkAllSupportingFileUpload()" class="SupportingFileUploadCheckbox" enter-as-tab/></th>
+            <th>Upload Description</th>
+            <th>Upload Filename</th>          
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="(key, supportFile) in SupportingFileUpload">
+            <td>
+                <input type="checkbox" ng-model="supportFile.selected"  enter-as-tab/>
+            </td>
+            <td>
+                <input type="text" maxlength="255" class="form-control" ng-model="SupportingFileUpload[key].uploadDescription" enter-as-tab />
+            </td>            
+            <td>
+                <input type="file" class="form-control" accept=".docx,.pdf,.jpg,.png,.jpeg,.txt" data-input-key="{{key}}" onchange="angular.element(this).scope().SupportingFileUploadInput(this)" ng-model="SupportingFileUpload[key].File"  enter-as-tab/>
+            </td>            
+        </tr>
+    </tbody>
+</table>
+<div>
+    <label id="SupportingFileErrorLabel" class="validationMsg" hidden>The total File size have exceeded 22Mb. The total File size should not exceed 22mb</label>
+</div>
+<div class="form-group">
+    <label class="validationMsg pull-left col-lg-2 " ng-show="(isValidatedSupportingFileUpload)">Please fill the details</label>
+    <input ng-hide="!SupportingFileUpload.length" type="button" class="btn btn-danger pull-right anjular-btn-danger" ng-click="removeSupportingFileUpload()" value="Remove">
+    <input type="button" ng-click="addNewSupportingFileUpload(this)" class="btn btn-primary addnew pull-right anjular-btn-primary" value="Add New">
+</div>
+
