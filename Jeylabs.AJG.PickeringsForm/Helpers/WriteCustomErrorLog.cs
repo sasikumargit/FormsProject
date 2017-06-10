@@ -6,8 +6,16 @@ using System.Web;
 
 namespace Jeylabs.AJG.PickeringsForm.Helpers
 {
+    /// <summary>
+    ///  Class to write custom error log
+    /// </summary>
     public static class WriteCustomErrorLog
     {
+
+        /// <summary>
+        /// Method to store custom error log 
+        /// </summary>
+        /// <param name="customErrorMessage"></param>
 
        public static void WriteLog(string customErrorMessage)
         {              
